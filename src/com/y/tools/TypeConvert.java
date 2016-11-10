@@ -17,6 +17,11 @@ import java.util.Map;
  */
 public class TypeConvert {
 	
+	/**
+	 * a map convert a java pojo
+	 * @param pojo
+	 * @return
+	 */
 	public static <T> Map<String, Object> pojo2Map(T pojo){
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (null != pojo){
@@ -40,7 +45,51 @@ public class TypeConvert {
 		
 		return null;	
 	}
-
+	
+	/**
+	 * a java pojo convert a map.
+	 * @param map
+	 * @param clazz
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T map2Pojo(Map<String, Object> map, Class<T> clazz) throws InstantiationException, IllegalAccessException{
+		if (null != map){
+			Object obj = clazz.newInstance();
+			Field[] fields = clazz.getDeclaredFields();
+			if (null != fields && fields.length > 0) {
+				for (Field field : fields){
+					if (Modifier.isPrivate(field.getModifiers()) && !Modifier.isStatic(field.getModifiers())){
+						try {
+							Method method = null;
+							String fieldName = field.getName();
+							if (field.getType() == int.class) {
+								method = clazz.getMethod("set" + getMethodName(fieldName), int.class);
+							} else if (field.getType() == String.class) {
+								method = clazz.getMethod("set" + getMethodName(fieldName), String.class);
+							} else if (field.getType() == long.class) {
+								method = clazz.getMethod("set" + getMethodName(fieldName), long.class);
+							} else if (field.getType() == float.class){
+								method = clazz.getMethod("set" + getMethodName(fieldName), float.class);
+							} else if (field.getType() == double.class) {
+								method = clazz.getMethod("set" + getMethodName(fieldName), double.class);
+							} else {
+								return null;
+							}
+							method.invoke(obj, map.get(fieldName));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				return (T)obj;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * @param fieldName
 	 * @return
