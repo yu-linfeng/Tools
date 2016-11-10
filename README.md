@@ -4,16 +4,10 @@
 
 ## TypeConvert
 
-<table>
-    <thead>
-        <tr>Method</tr>
-        <tr>Description</tr>
-    </thead>
-    <tbody>
-        <tr>public static <T> Map<String, Object> map2Pojo(T pojo)</tr>
-        <tr>a map convert a java pojo</tr>
-    </tbody>
-</table>
+Method|Description
+-|-
+public static <T> Map<String, Object> map2Pojo(T pojo)|a map convert a java pojo
+
 
 
     
