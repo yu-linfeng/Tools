@@ -4,7 +4,7 @@
 
 ## TypeConvert
 
-Method|Description
+Method | Description
 -|-
 public static <T> Map<String, Object> map2Pojo(T pojo)|a map convert a java pojo
 
